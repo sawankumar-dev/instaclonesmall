@@ -15,8 +15,16 @@ class AuthService {
             email,
             password,
         })
+        const accessToken = user.generateAccessToken();
+        const refreshToken = user.generateRefreshToken();
+        user.refreshToken = refreshToken;
+
         await user.save()
-        return user
+        return {
+            user,
+            accessToken,
+            refreshToken,
+        }
     }
 }
 

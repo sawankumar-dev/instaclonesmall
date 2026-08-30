@@ -1,11 +1,14 @@
 import express from "express"
 import multer from 'multer';
+import cookieParser from "cookie-parser";
+
 import { uploadFile } from "./service/storage.service.js";
 import postModel from "./models/post.model.js";
 import authRouter from "./routes/auth.routes.js";
 
 const app = express()
 app.use(express.json())
+app.use(cookieParser())
 
 const storage = multer.memoryStorage()
 const upload = multer({ storage });
