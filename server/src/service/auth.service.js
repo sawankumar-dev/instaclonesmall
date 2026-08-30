@@ -77,6 +77,16 @@ class AuthService {
             accessToken,
         }
     }
+    async logoutUser(data) {
+        const { _id } = data;
+        const user = await User.findById(_id);
+        if(!user){
+            throw new ApiError(404, "User not found")
+        }
+        user.refreshToken=null
+        await user.save({ validateBeforeSave: false })
+        return
+    }
 }
 
 export default new AuthService();

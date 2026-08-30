@@ -4,8 +4,6 @@ import authService from "../service/auth.service.js";
 import ApiResponse from "../utils/apiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
-import jwt from 'jsonwebtoken';
-
 const options = {
     httpOnly: true,
     secure: config.NODE_ENV === "production",
@@ -44,5 +42,14 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
     res.cookie("refreshToken", refreshToken, options)
     return res.status(200).json(
         new ApiResponse(200, "Access token refresh successfully")
+    )
+})
+
+export const logout = asyncHandler(async (req, res) => {
+    await authService.logoutUser(req.user)
+    res.cookie("accessToken", "", options)
+    res.cookie("refreshToken", "", options)
+    return res.status(200).json(
+        new ApiResponse(200, "User logged out successfully!", null)
     )
 })
