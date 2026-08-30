@@ -26,6 +26,32 @@ class AuthService {
             refreshToken,
         }
     }
+    async loginUser(credentials) {
+        const { email, password } = credentials;
+        const user = await User.findOne({ email })
+        if(!user) {
+            throw new ApiError(404, "User not found")
+        }
+        // check password
+        const isPasswordCorrect = await user.comparePassword(password);
+        if(!isPasswordCorrect) {
+            throw new ApiError(401, "Invalid credentials")
+        }
+        const refreshToken = user.generateRefreshToken();
+        const accessToken = user.generateAccessToken();
+
+        user.refreshToken = refreshToken;
+
+        await user.save({ validateBeforeSave: false })
+        const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
+
+        return {
+            user: loggedInUser,
+            accessToken,
+            refreshToken,
+        }
+
+    }
 }
 
 export default new AuthService();

@@ -17,3 +17,12 @@ export const registerUser = asyncHandler(async (req, res) => {
         new ApiResponse(201, "User Register Successfully!", user)
     )
 })
+
+export const loginUser = asyncHandler( async (req, res) => {
+    const { user, accessToken, refreshToken } = await authService.loginUser(req.body);
+    res.cookie("accessToken", accessToken, options)
+    res.cookie("refreshToken", refreshToken, options)
+    return res.status(200).json(
+        new ApiResponse(200, "Login successfully!", user)
+    )
+})

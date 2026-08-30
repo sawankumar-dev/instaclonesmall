@@ -9,9 +9,22 @@ export const registerSchema = z.object({
     email: z
         .string({ required_error: "Email is required" })
         .trim()
+        .toLowerCase()
         .pipe(z.email("Invalid Email Address")),
     password: z
         .string({ required_error: "Password is required" })
         .min(6, "Password must be at least 6 characters")
+        .max(100, "Password is too long")
+})
+
+export const loginSchema = z.object({
+    email: z
+        .string({ required_error: "Email is required" })
+        .trim()
+        .toLowerCase()
+        .pipe(z.email("Invalid Email Address")),
+    password: z
+        .string({ required_error: "Password is required" })
+        .min(1, "Password is required")
         .max(100, "Password is too long")
 })
