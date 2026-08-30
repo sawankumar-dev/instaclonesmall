@@ -1,5 +1,7 @@
+import config from "../config/config.js";
 import User from "../models/user.model.js";
 import ApiError from "../utils/apiError.js";
+import jwt from "jsonwebtoken";
 
 class AuthService {
     async registerUser(userData) {
@@ -51,6 +53,29 @@ class AuthService {
             refreshToken,
         }
 
+    }
+    async refreshAccessToken(token) {
+        if(!token) {
+            throw new ApiError(401, "Unauthorized request: Refresh token missing")
+        }
+        const decodedToken = jwt.verify(token, config.REFRESH_TOKEN);
+        const user = await User.findById(decodedToken._id);
+        if(!user) {
+            throw new Error(401, "Invalid refresh token: User not found")
+        }
+        if(token !== user?.refreshToken) {
+            throw new ApiError(401, "Refresh token is expired or already used")
+        }
+        const refreshToken = user.generateRefreshToken()
+        const accessToken = user.generateAccessToken();
+
+        user.refreshToken = refreshToken;
+        await user.save({ validateBeforeSave: false });
+
+        return {
+            refreshToken, 
+            accessToken,
+        }
     }
 }
 
