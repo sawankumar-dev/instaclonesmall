@@ -5,6 +5,7 @@ const initialState = {
     user: null,
     isAuthenticated: false,
     isLoading: false,
+    error: null,
 }
 const authSlice = createSlice({
     name: "auth",
@@ -41,8 +42,9 @@ const authSlice = createSlice({
             state.isAuthenticated = true
             state.user = action.payload;
         })
-        .addCase(myProfileAction.rejected, (state) => {
+        .addCase(myProfileAction.rejected, (state, action) => {
             state.isLoading = false;
+            state.error = action.payload
         })
     }
 })

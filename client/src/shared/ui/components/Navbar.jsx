@@ -32,6 +32,31 @@ const Navbar = () => {
           >
             About
           </NavLink>
+          {isAuthenticated && (
+            <NavLink 
+              to={"/create"} // Route ko '/about' se badalkar '/create' kar diya hai jo zyada sahi hai
+              className={({ isActive }) => 
+                `flex items-center gap-2 text-sm font-medium transition-colors duration-200 group
+                ${isActive ? 'text-blue-600 font-bold' : 'text-blue-600 hover:text-blue-700'}`
+              }
+            >
+              {/* Instagram Square Plus (+) Icon */}
+              <svg 
+                xmlns="http://w3.org" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                strokeWidth={2} 
+                stroke="currentColor" 
+                className="w-5 h-5 transition-transform group-hover:scale-105"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+
+              {/* Text Label - Mobile par hidden rahega, tablet/desktop par dikhega */}
+              <span className="hidden md:inline">Create</span>
+            </NavLink>
+          )}
+
         </nav>
         
      {/* Auth Link & User Profile section */}

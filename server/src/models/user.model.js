@@ -56,5 +56,5 @@ userSchema.methods.generateAccessToken = function () {
         expiresIn: config.JWT_ACCESS_EXPIRY
     })
 }
-const User = model("user", userSchema);
+const User = model("User", userSchema);
 export default User

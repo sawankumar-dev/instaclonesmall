@@ -8,6 +8,8 @@ import AboutPage from "../shared/ui/pages/AboutPage"
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { myProfileAction } from "../features/Auth/state/authAction"
+import ProtectedRoutes from "./protected/ProtectedRoutes"
+import CreatePostPage from "../features/Post/ui/pages/CreatePostPage"
 
 const MainRoutes = () => {
     const dispatch = useDispatch()
@@ -41,9 +43,18 @@ const MainRoutes = () => {
                 {
                     path: "about",
                     element: <AboutPage/>
+                },
+                {
+                    element: <ProtectedRoutes/>,
+                    children: [
+                        {
+                            path: "create",
+                            element: <CreatePostPage/>,
+                        }
+                    ]
                 }
             ]
-        }
+        },
     ])
   return (
     <RouterProvider router={router}/>

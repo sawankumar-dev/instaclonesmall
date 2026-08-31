@@ -15,3 +15,12 @@ export const createPost = asyncHandler( async (req, res) => {
         post: newPost
     })
 })
+
+export const getAllPost = asyncHandler(async (req, res) => {
+    const posts = await postModel.find().populate("user", "name email");
+    return res.status(200).json({
+        success: true,
+        message: "Post fetched successfully",
+        posts,
+    })
+})

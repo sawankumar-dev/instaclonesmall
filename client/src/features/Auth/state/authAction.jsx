@@ -23,6 +23,6 @@ export const myProfileAction = createAsyncThunk("/auth/me", async (_, thunkAPI) 
         const response = await myProfileApi();
         return response.data;
     } catch (error) {
-        return thunkAPI.rejectWithValue(error.data?.message || "Error in Register user Action")
+        return thunkAPI.rejectWithValue(error.data?.message || "Error in Profile Action")
     }
 })

@@ -14,6 +14,13 @@ export const verifyJwt = async (req, res, next) => {
         }
         // token verify
         const decodedToken = jwt.verify(token, config.ACCESS_TOKEN);
+              // 3. CRASH PREVENTION: Check karo decoded sahi hai ya nahi
+        if (!decodedToken) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid token payload structure"
+            });
+        }
         const user = await User.findById(decodedToken._id)
         if(!user) {
             throw new ApiError(401, "Invalid access token")
