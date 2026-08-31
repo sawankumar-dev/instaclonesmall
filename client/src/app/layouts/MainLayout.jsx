@@ -1,7 +1,14 @@
 import { Outlet } from 'react-router'
 import Navbar from '../../shared/ui/components/Navbar'
+import { useSelector } from 'react-redux'
 
 const MainLayout = () => {
+  const { isLoading } = useSelector((state) => state.auth)
+  if(isLoading) {
+    return <div>
+      <h1>Loading....</h1>
+    </div>
+  }
   return (
     // White theme background aur black text color
     <div className='min-h-screen bg-white text-gray-900 flex flex-col'>

@@ -5,8 +5,16 @@ import RegisterPage from "../features/Auth/ui/pages/RegisterPage"
 import MainLayout from "../app/layouts/MainLayout"
 import HomePage from "../shared/ui/pages/HomePage"
 import AboutPage from "../shared/ui/pages/AboutPage"
+import { useEffect } from "react"
+import { useDispatch } from "react-redux"
+import { myProfileAction } from "../features/Auth/state/authAction"
 
 const MainRoutes = () => {
+    const dispatch = useDispatch()
+    useEffect(() => {
+        console.log("Me ek bar jarur chlta hun")
+        dispatch(myProfileAction())
+    }, [])
     const router = createBrowserRouter([
         {
             path: "/auth",
